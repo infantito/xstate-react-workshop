@@ -1,7 +1,19 @@
 import * as React from 'react'
 
+const TIMEOUT = 2000
+
 export const ScratchApp = () => {
-  const [isActive, setIsActive] = React.useState(false)
+  const [status, setStatus] = React.useState('inactive')
+
+  React.useEffect(() => {
+    if (status === 'pending') {
+      const timer = setTimeout(() => {
+        setStatus('active')
+      }, TIMEOUT)
+
+      return () => clearTimeout(timer)
+    }
+  }, [status])
 
   return (
     <div className="scratch">
@@ -14,8 +26,13 @@ export const ScratchApp = () => {
         </div>
         <div
           className="alarmToggle"
-          data-active={isActive || void 0}
-          onClick={() => setIsActive(prevState => !prevState)}
+          style={{opacity: status === 'pending' ? 0.5 : 1}}
+          data-active={status === 'active' || void 0}
+          onClick={() =>
+            setStatus(prevStatus =>
+              prevStatus === 'active' ? 'inactive' : 'pending',
+            )
+          }
         ></div>
       </div>
     </div>

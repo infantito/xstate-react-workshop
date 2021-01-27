@@ -1,4 +1,8 @@
+import * as React from 'react'
+
 export const ScratchApp = () => {
+  const [isActive, setIsActive] = React.useState(false)
+
   return (
     <div className="scratch">
       <div className="alarm">
@@ -8,7 +12,11 @@ export const ScratchApp = () => {
             minute: '2-digit',
           })}
         </div>
-        <div className="alarmToggle"></div>
+        <div
+          className="alarmToggle"
+          data-active={isActive || void 0}
+          onClick={() => setIsActive(prevState => !prevState)}
+        ></div>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { createMachine, assign } from 'xstate';
+import {createMachine, assign} from 'xstate'
 
 export const timerMachine = createMachine({
   initial: 'idle',
@@ -22,7 +22,7 @@ export const timerMachine = createMachine({
         TOGGLE: 'paused',
         ADD_MINUTE: {
           actions: assign({
-            duration: (ctx) => ctx.duration + 60,
+            duration: ctx => ctx.duration + 60,
           }),
         },
       },
@@ -34,4 +34,4 @@ export const timerMachine = createMachine({
       },
     },
   },
-});
+})

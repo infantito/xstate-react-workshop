@@ -1,6 +1,6 @@
 export const timerMachineConfig = {
   // ...
-};
+}
 
 export const timerMachine = (state, event) => {
   // Add the logic that will read the timerMachineConfig
@@ -9,5 +9,5 @@ export const timerMachine = (state, event) => {
 
   // ...
 
-  return state;
-};
+  return state
+}

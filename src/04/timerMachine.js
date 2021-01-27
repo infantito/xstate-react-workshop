@@ -1,4 +1,4 @@
-import { createMachine, assign } from 'xstate';
+import {createMachine, assign} from 'xstate'
 
 export const timerMachine = createMachine({
   initial: 'idle',
@@ -24,13 +24,13 @@ export const timerMachine = createMachine({
         // is greater than the total `context.duration`.
         TICK: {
           actions: assign({
-            elapsed: (ctx) => ctx.elapsed + ctx.interval,
+            elapsed: ctx => ctx.elapsed + ctx.interval,
           }),
         },
         TOGGLE: 'paused',
         ADD_MINUTE: {
           actions: assign({
-            duration: (ctx) => ctx.duration + 60,
+            duration: ctx => ctx.duration + 60,
           }),
         },
       },
@@ -46,4 +46,4 @@ export const timerMachine = createMachine({
     // It should go to the `idle` state on the `RESET` event.
     // ...
   },
-});
+})

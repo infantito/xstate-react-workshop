@@ -1,17 +1,17 @@
-import { createMachine, assign } from 'xstate';
+import {createMachine, assign} from 'xstate'
 
-const ticker = (ctx) => (sendBack) => {
+const ticker = ctx => sendBack => {
   const interval = setInterval(() => {
-    sendBack('TICK');
-  }, ctx.interval * 1000);
+    sendBack('TICK')
+  }, ctx.interval * 1000)
 
-  return () => clearInterval(interval);
-};
+  return () => clearInterval(interval)
+}
 
-const timerExpired = (ctx) => ctx.elapsed >= ctx.duration;
+const timerExpired = ctx => ctx.elapsed >= ctx.duration
 
 // https://xstate.js.org/viz/?gist=78fef4bd3ae520709ceaee62c0dd59cd
-export const createTimerMachine = (duration) =>
+export const createTimerMachine = duration =>
   createMachine({
     id: 'timer',
     initial: 'running',
@@ -56,19 +56,19 @@ export const createTimerMachine = (duration) =>
         on: {
           TICK: {
             actions: assign({
-              elapsed: (ctx) => ctx.elapsed + ctx.interval,
+              elapsed: ctx => ctx.elapsed + ctx.interval,
             }),
           },
           TOGGLE: 'paused',
           ADD_MINUTE: {
             actions: assign({
-              duration: (ctx) => ctx.duration + 60,
+              duration: ctx => ctx.duration + 60,
             }),
           },
         },
       },
       paused: {
-        on: { TOGGLE: 'running' },
+        on: {TOGGLE: 'running'},
       },
     },
     on: {
@@ -76,4 +76,4 @@ export const createTimerMachine = (duration) =>
         target: '.idle',
       },
     },
-  });
+  })

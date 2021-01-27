@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { useMachine } from '@xstate/react';
-import { Tabs, Tab, TabList, TabPanels, TabPanel } from '@reach/tabs';
-import { NewTimer } from './NewTimer';
-import { Timer } from './Timer';
-import { Clock } from './Clock';
-import { timerAppMachine } from './timerAppMachine';
+import * as React from 'react'
+import {useMachine} from '@xstate/react'
+import {Tabs, Tab, TabList, TabPanels, TabPanel} from '@reach/tabs'
+import {NewTimer} from './NewTimer'
+import {Timer} from './Timer'
+import {Clock} from './Clock'
+import {timerAppMachine} from './timerAppMachine'
 
 export const App = () => {
-  const [state, send] = useMachine(timerAppMachine);
-  const { timers } = state.context;
+  const [state, send] = useMachine(timerAppMachine)
+  const {timers} = state.context
 
   return (
     <Tabs
@@ -27,13 +27,13 @@ export const App = () => {
         </TabPanel>
         <TabPanel className="app-panel">
           <NewTimer
-            onSubmit={(duration) => {
-              send({ type: 'ADD', duration });
+            onSubmit={duration => {
+              send({type: 'ADD', duration})
             }}
             onCancel={
               timers.length
                 ? () => {
-                    send('CANCEL');
+                    send('CANCEL')
                   }
                 : undefined
             }
@@ -46,14 +46,14 @@ export const App = () => {
                   key={timer.id}
                   timerRef={timer}
                   onDelete={() => {
-                    send('DELETE');
+                    send('DELETE')
                   }}
                   onAdd={() => {
-                    send('CREATE');
+                    send('CREATE')
                   }}
                   data-active={i === state.context.currentTimer || undefined}
                 />
-              );
+              )
             })}
           </div>
           <div className="dots" hidden={!state.matches('timer')}>
@@ -66,14 +66,14 @@ export const App = () => {
                   }
                   key={index}
                   onClick={() => {
-                    send({ type: 'SWITCH', index: index });
+                    send({type: 'SWITCH', index: index})
                   }}
                 ></div>
-              );
+              )
             })}
           </div>
         </TabPanel>
       </TabPanels>
     </Tabs>
-  );
-};
+  )
+}

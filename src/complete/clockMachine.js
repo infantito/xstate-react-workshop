@@ -1,4 +1,4 @@
-import { assign, createMachine } from 'xstate';
+import {assign, createMachine} from 'xstate'
 
 export const clockMachine = createMachine({
   id: 'clock',
@@ -10,17 +10,17 @@ export const clockMachine = createMachine({
     active: {
       invoke: {
         id: 'interval',
-        src: () => (sendBack) => {
+        src: () => sendBack => {
           const interval = setInterval(() => {
             sendBack({
               type: 'TICK',
               time: new Date(),
-            });
-          }, 1000);
+            })
+          }, 1000)
 
           return () => {
-            clearInterval(interval);
-          };
+            clearInterval(interval)
+          }
         },
       },
       on: {
@@ -32,4 +32,4 @@ export const clockMachine = createMachine({
       },
     },
   },
-});
+})

@@ -1,4 +1,4 @@
-import { createMachine, assign } from 'xstate';
+import {createMachine, assign} from 'xstate'
 
 // Parameterize the assign actions here:
 // const tick = ...
@@ -33,7 +33,7 @@ export const timerMachine = createMachine({
         ADD_MINUTE: {
           // Parameterize this action:
           actions: assign({
-            duration: (ctx) => ctx.duration + 60,
+            duration: ctx => ctx.duration + 60,
           }),
         },
       },
@@ -45,4 +45,4 @@ export const timerMachine = createMachine({
       },
     },
   },
-});
+})

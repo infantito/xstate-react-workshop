@@ -1,4 +1,4 @@
-import { assign, createMachine } from 'xstate';
+import {assign, createMachine} from 'xstate'
 
 export const foreignClockMachine = createMachine({
   initial: 'loadingTimezones',
@@ -29,7 +29,7 @@ export const foreignClockMachine = createMachine({
                 foreignTime: (ctx, event) => {
                   return new Date(event.time).toLocaleTimeString('en-US', {
                     timeZone: ctx.timezone,
-                  });
+                  })
                 },
               }),
             },
@@ -49,4 +49,4 @@ export const foreignClockMachine = createMachine({
       },
     },
   },
-});
+})

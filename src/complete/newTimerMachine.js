@@ -1,12 +1,12 @@
-import { assign, createMachine } from 'xstate';
+import {assign, createMachine} from 'xstate'
 
-export const durationValid = (context) => {
-  return !isNaN(context.duration) && context.duration > 0;
-};
+export const durationValid = context => {
+  return !isNaN(context.duration) && context.duration > 0
+}
 
 export const assignDuration = assign({
   duration: (_, event) => +event.target.value,
-});
+})
 
 export const newTimerMachine = createMachine({
   initial: 'active',
@@ -26,4 +26,4 @@ export const newTimerMachine = createMachine({
       },
     },
   },
-});
+})

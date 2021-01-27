@@ -1,22 +1,19 @@
-import * as React from 'react';
-import { useReducer } from 'react';
-import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as React from 'react'
+import {useReducer} from 'react'
+import {faPlay, faPause, faStop} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
-import { timerMachine, timerMachineConfig } from './timerMachine.final';
-import { ProgressCircle } from '../ProgressCircle';
+import {timerMachine, timerMachineConfig} from './timerMachine.final'
+import {ProgressCircle} from '../ProgressCircle'
 
 export const Timer = () => {
-  const [state, dispatch] = useReducer(
-    timerMachine,
-    timerMachineConfig.initial
-  );
+  const [state, dispatch] = useReducer(timerMachine, timerMachineConfig.initial)
 
-  const { duration, elapsed, interval } = {
+  const {duration, elapsed, interval} = {
     duration: 60,
     elapsed: 0,
     interval: 0.1,
-  };
+  }
 
   return (
     <div
@@ -35,19 +32,19 @@ export const Timer = () => {
       <ProgressCircle />
       <div className="display">
         <div className="label">{state}</div>
-        <div className="elapsed" onClick={() => dispatch({ type: 'TOGGLE' })}>
+        <div className="elapsed" onClick={() => dispatch({type: 'TOGGLE'})}>
           {Math.ceil(duration - elapsed)}
         </div>
         <div className="controls">
           {state === 'paused' && (
-            <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+            <button onClick={() => dispatch({type: 'RESET'})}>Reset</button>
           )}
         </div>
       </div>
       <div className="actions">
         {state === 'running' && (
           <button
-            onClick={() => dispatch({ type: 'TOGGLE' })}
+            onClick={() => dispatch({type: 'TOGGLE'})}
             title="Pause timer"
           >
             <FontAwesomeIcon icon={faPause} />
@@ -55,7 +52,7 @@ export const Timer = () => {
         )}
         {(state === 'paused' || state === 'idle') && (
           <button
-            onClick={() => dispatch({ type: 'TOGGLE' })}
+            onClick={() => dispatch({type: 'TOGGLE'})}
             title="Start timer"
           >
             <FontAwesomeIcon icon={faPlay} />
@@ -63,5 +60,5 @@ export const Timer = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}

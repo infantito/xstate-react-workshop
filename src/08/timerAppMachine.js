@@ -1,5 +1,5 @@
-import { createMachine, assign, spawn } from 'xstate';
-import { createTimerMachine } from './timerMachine';
+import {createMachine, assign, spawn} from 'xstate'
+import {createTimerMachine} from './timerMachine'
 
 export const timerAppMachine = createMachine({
   initial: 'new',
@@ -13,21 +13,21 @@ export const timerAppMachine = createMachine({
       on: {
         CANCEL: {
           target: 'timer',
-          cond: (ctx) => ctx.timers.length > 0,
+          cond: ctx => ctx.timers.length > 0,
         },
       },
     },
     timer: {
       on: {
         DELETE: {
-          actions: assign((ctx) => {
-            const timers = ctx.timers.slice(0, -1);
-            const currentTimer = timers.length - 1;
+          actions: assign(ctx => {
+            const timers = ctx.timers.slice(0, -1)
+            const currentTimer = timers.length - 1
 
             return {
               timers,
               currentTimer,
-            };
+            }
           }),
           target: 'deleting',
         },
@@ -35,8 +35,8 @@ export const timerAppMachine = createMachine({
     },
     deleting: {
       always: [
-        { target: 'new', cond: (ctx) => ctx.timers.length === 0 },
-        { target: 'timer' },
+        {target: 'new', cond: ctx => ctx.timers.length === 0},
+        {target: 'timer'},
       ],
     },
   },
@@ -52,7 +52,7 @@ export const timerAppMachine = createMachine({
         // Change the below line to return the updated context:
         // - `context.timers` should contain the appended spawned timer
         // - `context.currentTimer` should be the index of that spawned timer
-        return ctx;
+        return ctx
       }),
     },
     CREATE: 'new',
@@ -62,4 +62,4 @@ export const timerAppMachine = createMachine({
       }),
     },
   },
-});
+})

@@ -1,24 +1,24 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 // To see the final versions of each exercise, append .final to the path; e.g.:
 // import { Timer as Timer00 } from './00/Timer.final';
 
-import { Timer as Timer00 } from './00/Timer';
-import { Timer as Timer01 } from './01/Timer';
-import { Timer as Timer02 } from './02/Timer';
-import { Timer as Timer03 } from './03/Timer';
-import { Timer as Timer04 } from './04/Timer';
-import { Timer as Timer05 } from './05/Timer';
-import { Timer as Timer06 } from './06/Timer';
-import { Timer as Timer07 } from './07/Timer';
-import { App as App08 } from './08/App';
-import { App as AppComplete } from './complete/App';
-import { ScratchApp } from './scratch';
-import { Exercise } from './Exercise';
+import {Timer as Timer00} from './00/Timer'
+import {Timer as Timer01} from './01/Timer'
+import {Timer as Timer02} from './02/Timer'
+import {Timer as Timer03} from './03/Timer'
+import {Timer as Timer04} from './04/Timer'
+import {Timer as Timer05} from './05/Timer'
+import {Timer as Timer06} from './06/Timer'
+import {Timer as Timer07} from './07/Timer'
+import {App as App08} from './08/App'
+import {App as AppComplete} from './complete/App'
+import {ScratchApp} from './scratch'
+import {Exercise} from './Exercise'
 
 function getMarkdownLink(exercise) {
-  return require(`./${exercise}/README.md`).default;
+  return require(`./${exercise}/README.md`).default
 }
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
         </Route>
       </Switch>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

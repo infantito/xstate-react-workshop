@@ -1,25 +1,25 @@
-import * as React from 'react';
-import { useEffect } from 'react';
-import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as React from 'react'
+import {useEffect} from 'react'
+import {faPlay, faPause, faStop} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
-import { useMachine } from '@xstate/react';
-import { ProgressCircle } from '../ProgressCircle';
+import {useMachine} from '@xstate/react'
+import {ProgressCircle} from '../ProgressCircle'
 
-import { timerMachine } from './timerMachine';
+import {timerMachine} from './timerMachine'
 
 export const Timer = () => {
-  const [state, send] = useMachine(timerMachine);
+  const [state, send] = useMachine(timerMachine)
 
-  const { duration, elapsed, interval } = state.context;
+  const {duration, elapsed, interval} = state.context
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      send('TICK');
-    }, interval * 1000);
+      send('TICK')
+    }, interval * 1000)
 
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => clearInterval(intervalId)
+  }, [])
 
   return (
     <div
@@ -42,22 +42,22 @@ export const Timer = () => {
           {Math.ceil(duration - elapsed)}
         </div>
         <div className="controls">
-          {!state.matches({ running: 'normal' }) && (
+          {!state.matches({running: 'normal'}) && (
             <button onClick={() => send('RESET')}>Reset</button>
           )}
 
-          {state.matches({ running: 'normal' }) && (
+          {state.matches({running: 'normal'}) && (
             <button onClick={() => send('ADD_MINUTE')}>+ 1:00</button>
           )}
         </div>
       </div>
       <div className="actions">
-        {state.matches({ running: 'normal' }) && (
+        {state.matches({running: 'normal'}) && (
           <button onClick={() => send('TOGGLE')} title="Pause timer">
             <FontAwesomeIcon icon={faPause} />
           </button>
         )}
-        {state.matches({ running: 'overtime' }) && (
+        {state.matches({running: 'overtime'}) && (
           <button onClick={() => send('RESET')} title="Reset timer">
             <FontAwesomeIcon icon={faStop} />
           </button>
@@ -69,5 +69,5 @@ export const Timer = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}

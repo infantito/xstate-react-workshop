@@ -1,34 +1,34 @@
-import * as React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import { useMachine } from '@xstate/react';
-import { newTimerMachine } from './newTimerMachine';
-import { useRef } from 'react';
+import * as React from 'react'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPlay} from '@fortawesome/free-solid-svg-icons'
+import {useMachine} from '@xstate/react'
+import {newTimerMachine} from './newTimerMachine'
+import {useRef} from 'react'
 
-export const NewTimer = ({ onSubmit, onCancel }) => {
-  const inputRef = useRef();
+export const NewTimer = ({onSubmit, onCancel}) => {
+  const inputRef = useRef()
   const [state, send] = useMachine(newTimerMachine, {
     actions: {
-      submit: (context) => {
-        onSubmit(context.duration);
+      submit: context => {
+        onSubmit(context.duration)
       },
     },
-  });
+  })
 
   React.useEffect(() => {
-    inputRef.current?.focus();
-  }, [inputRef]);
+    inputRef.current?.focus()
+  }, [inputRef])
 
-  const { duration } = state.context;
+  const {duration} = state.context
 
   return (
     <form
       className="screen"
       data-screen="new-timer"
       data-testid="new-timer"
-      onSubmit={(e) => {
-        e.preventDefault();
-        send(e);
+      onSubmit={e => {
+        e.preventDefault()
+        send(e)
       }}
     >
       <input
@@ -47,7 +47,7 @@ export const NewTimer = ({ onSubmit, onCancel }) => {
             title="Cancel"
             className="transparent"
             onClick={() => {
-              onCancel();
+              onCancel()
             }}
           >
             Cancel
@@ -62,5 +62,5 @@ export const NewTimer = ({ onSubmit, onCancel }) => {
         </button>
       </div>
     </form>
-  );
-};
+  )
+}

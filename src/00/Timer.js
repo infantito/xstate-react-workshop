@@ -1,20 +1,20 @@
-import * as React from 'react';
-import { useReducer } from 'react';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ProgressCircle } from '../ProgressCircle';
+import * as React from 'react'
+import {useReducer} from 'react'
+import {faPlay, faPause} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {ProgressCircle} from '../ProgressCircle'
 
 // Import the timer machine and its initial state:
 // import { ... } from './timerMachine';
 
 export const Timer = () => {
-  const state = ''; // delete me - useReducer instead!
+  const state = '' // delete me - useReducer instead!
 
-  const { duration, elapsed, interval } = {
+  const {duration, elapsed, interval} = {
     duration: 60,
     elapsed: 0,
     interval: 0.1,
-  };
+  }
 
   return (
     <div
@@ -71,5 +71,5 @@ export const Timer = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}

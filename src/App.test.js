@@ -1,9 +1,9 @@
 // @ts-nocheck
-import * as React from 'react';
-import { createModel } from '@xstate/test';
-import { createMachine, assign } from 'xstate';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import { App } from './complete/App';
+import * as React from 'react'
+import {createModel} from '@xstate/test'
+import {createMachine, assign} from 'xstate'
+import {render, fireEvent, cleanup} from '@testing-library/react'
+import {App} from './complete/App'
 
 const testTimerAppMachine = createMachine({
   initial: 'newTimer',
@@ -25,13 +25,13 @@ const testTimerAppMachine = createMachine({
           }),
         },
         PLAY: {
-          cond: (ctx) => ctx.value > 0,
+          cond: ctx => ctx.value > 0,
           target: 'timer',
         },
       },
       meta: {
-        test: async ({ getByTestId }) => {
-          getByTestId('new-timer'); // [data-testid="new-timer"]
+        test: async ({getByTestId}) => {
+          getByTestId('new-timer') // [data-testid="new-timer"]
         },
       },
     },
@@ -41,59 +41,59 @@ const testTimerAppMachine = createMachine({
         ADD: 'newTimer.adding',
       },
       meta: {
-        test: async ({ getByText }, state) => {
-          getByText(/XState Minute Timer/i);
+        test: async ({getByText}, state) => {
+          getByText(/XState Minute Timer/i)
         },
       },
     },
   },
-});
+})
 
 const testTimerAppModel = createModel(testTimerAppMachine).withEvents({
   CHANGE: {
-    exec: async ({ getByTitle }) => {
-      const input = getByTitle(/Duration/i);
+    exec: async ({getByTitle}) => {
+      const input = getByTitle(/Duration/i)
 
-      fireEvent.change(input, { target: { value: '124' } });
+      fireEvent.change(input, {target: {value: '124'}})
     },
   },
   PLAY: {
-    exec: async ({ getByTitle }) => {
-      const addButton = getByTitle(/Start .* timer/i);
+    exec: async ({getByTitle}) => {
+      const addButton = getByTitle(/Start .* timer/i)
 
-      fireEvent.click(addButton);
+      fireEvent.click(addButton)
     },
   },
   DELETE: {
-    exec: async ({ getByTitle }) => {
-      const deleteButton = getByTitle(/Delete/i);
+    exec: async ({getByTitle}) => {
+      const deleteButton = getByTitle(/Delete/i)
 
-      fireEvent.click(deleteButton);
+      fireEvent.click(deleteButton)
     },
   },
   ADD: {
-    exec: async ({ getByTitle }) => {
-      const addButton = getByTitle(/Add/i);
+    exec: async ({getByTitle}) => {
+      const addButton = getByTitle(/Add/i)
 
-      fireEvent.click(addButton);
+      fireEvent.click(addButton)
     },
   },
-});
+})
 
 describe('something', () => {
-  const testPlans = testTimerAppModel.getSimplePathPlans();
+  const testPlans = testTimerAppModel.getSimplePathPlans()
 
-  testPlans.forEach((plan) => {
+  testPlans.forEach(plan => {
     describe(plan.description, () => {
-      afterEach(cleanup);
+      afterEach(cleanup)
 
-      plan.paths.forEach((path) => {
+      plan.paths.forEach(path => {
         it(path.description, () => {
-          const rendered = render(<App />);
+          const rendered = render(<App />)
 
-          return path.test(rendered);
-        });
-      });
-    });
-  });
-});
+          return path.test(rendered)
+        })
+      })
+    })
+  })
+})

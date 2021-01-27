@@ -1,4 +1,4 @@
-import { createMachine, assign } from 'xstate';
+import {createMachine, assign} from 'xstate'
 
 export const timerMachine = createMachine({
   initial: 'idle',
@@ -29,4 +29,4 @@ export const timerMachine = createMachine({
       },
     },
   },
-});
+})

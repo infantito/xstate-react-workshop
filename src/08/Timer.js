@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { faPlay, faPause, faStop } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useService } from '@xstate/react';
+import * as React from 'react'
+import {faPlay, faPause, faStop} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {useService} from '@xstate/react'
 
-import { ProgressCircle } from '../ProgressCircle';
+import {ProgressCircle} from '../ProgressCircle'
 
-export const Timer = ({ onDelete, onAdd, timerRef, ...attrs }) => {
-  const [state, send] = useService(timerRef);
+export const Timer = ({onDelete, onAdd, timerRef, ...attrs}) => {
+  const [state, send] = useService(timerRef)
 
-  const { duration, elapsed, interval } = state.context;
+  const {duration, elapsed, interval} = state.context
 
   return (
     <div
@@ -32,11 +32,11 @@ export const Timer = ({ onDelete, onAdd, timerRef, ...attrs }) => {
           {Math.ceil(duration - elapsed)}
         </div>
         <div className="controls">
-          {!state.matches({ running: 'normal' }) && (
+          {!state.matches({running: 'normal'}) && (
             <button onClick={() => send('RESET')}>Reset</button>
           )}
 
-          {state.matches({ running: 'normal' }) && (
+          {state.matches({running: 'normal'}) && (
             <button onClick={() => send('ADD_MINUTE')}>+ 1:00</button>
           )}
         </div>
@@ -46,17 +46,17 @@ export const Timer = ({ onDelete, onAdd, timerRef, ...attrs }) => {
           className="transparent"
           title="Delete timer"
           onClick={() => {
-            onDelete();
+            onDelete()
           }}
         >
           Delete
         </button>
-        {state.matches({ running: 'normal' }) && (
+        {state.matches({running: 'normal'}) && (
           <button onClick={() => send('TOGGLE')} title="Pause timer">
             <FontAwesomeIcon icon={faPause} />
           </button>
         )}
-        {state.matches({ running: 'overtime' }) && (
+        {state.matches({running: 'overtime'}) && (
           <button onClick={() => send('RESET')} title="Reset timer">
             <FontAwesomeIcon icon={faStop} />
           </button>
@@ -70,12 +70,12 @@ export const Timer = ({ onDelete, onAdd, timerRef, ...attrs }) => {
           className="transparent"
           title="Add timer"
           onClick={() => {
-            onAdd();
+            onAdd()
           }}
         >
           Add Timer
         </button>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,13 +1,13 @@
-import { useMachine } from '@xstate/react';
-import { createContext } from 'react';
-import { clockMachine } from './clockMachine';
-import { ForeignClock } from './ForeignClock';
+import {useMachine} from '@xstate/react'
+import {createContext} from 'react'
+import {clockMachine} from './clockMachine'
+import {ForeignClock} from './ForeignClock'
 
-export const LocalTimeContext = createContext();
+export const LocalTimeContext = createContext()
 
 export function Clock() {
-  const [state, send, service] = useMachine(clockMachine);
-  const { time } = state.context;
+  const [state, send, service] = useMachine(clockMachine)
+  const {time} = state.context
 
   return (
     <LocalTimeContext.Provider value={service}>
@@ -21,5 +21,5 @@ export function Clock() {
         </div>
       </div>
     </LocalTimeContext.Provider>
-  );
+  )
 }

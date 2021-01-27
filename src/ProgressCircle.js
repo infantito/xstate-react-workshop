@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export const ProgressCircle = () => {
   return (
@@ -12,5 +12,5 @@ export const ProgressCircle = () => {
       <circle r="40" cx="50" cy="50" pathLength="1" />
       <circle className="progress" r="40" cx="50" cy="50" pathLength="1" />
     </svg>
-  );
-};
+  )
+}

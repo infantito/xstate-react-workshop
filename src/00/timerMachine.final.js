@@ -18,8 +18,8 @@ export const timerMachineConfig = {
       },
     },
   },
-};
+}
 
 export const timerMachine = (state, event) => {
-  return timerMachineConfig.states[state]?.on?.[event.type] || state;
-};
+  return timerMachineConfig.states[state]?.on?.[event.type] || state
+}

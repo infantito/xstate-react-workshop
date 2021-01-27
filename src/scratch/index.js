@@ -4,31 +4,32 @@ const TIMEOUT = 2000
 
 const INITIAL_STATE = 'inactive'
 
+const alarmMachine = {
+  initial: INITIAL_STATE,
+  states: {
+    inactive: {
+      on: {
+        TOGGLE: 'pending',
+      },
+    },
+    pending: {
+      on: {
+        SUCCESS: 'active',
+        TOGGLE: 'inactive',
+      },
+    },
+    active: {
+      on: {
+        TOGGLE: 'inactive',
+      },
+    },
+  },
+}
+
 const alarmReducer = (state, event) => {
-  switch (state) {
-    case 'inactive':
-      if (event.type === 'TOGGLE') {
-        return 'pending'
-      }
+  const nextState = alarmMachine.states[state].on[event.type] || state
 
-      return state
-    case 'pending':
-      if (event.type === 'SUCCESS') {
-        return 'active'
-      } else if (event.type === 'TOGGLE') {
-        return 'inactive'
-      }
-
-      return state
-    case 'active':
-      if (event.type === 'TOGGLE') {
-        return 'inactive'
-      }
-
-      return state
-    default:
-      return 'inactive'
-  }
+  return nextState
 }
 
 export const ScratchApp = () => {

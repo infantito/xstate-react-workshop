@@ -1,4 +1,5 @@
 import React from 'react'
+import {QueryClient, QueryClientProvider} from 'react-query'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 // To see the final versions of each exercise, append .final to the path; e.g.:
@@ -21,67 +22,71 @@ function getMarkdownLink(exercise) {
   return require(`./${exercise}/README.md`).default
 }
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/00">
-          <Exercise markdown={getMarkdownLink('00')}>
-            <Timer00 />
-          </Exercise>
-        </Route>
-        <Route path="/01">
-          <Exercise markdown={getMarkdownLink('01')}>
-            <Timer01 />
-          </Exercise>
-        </Route>
-        <Route path="/02">
-          <Exercise markdown={getMarkdownLink('02')}>
-            <Timer02 />
-          </Exercise>
-        </Route>
-        <Route path="/03">
-          <Exercise markdown={getMarkdownLink('03')}>
-            <Timer03 />
-          </Exercise>
-        </Route>
-        <Route path="/04">
-          <Exercise markdown={getMarkdownLink('04')}>
-            <Timer04 />
-          </Exercise>
-        </Route>
-        <Route path="/05">
-          <Exercise markdown={getMarkdownLink('05')}>
-            <Timer05 />
-          </Exercise>
-        </Route>
-        <Route path="/06">
-          <Exercise markdown={getMarkdownLink('06')}>
-            <Timer06 />
-          </Exercise>
-        </Route>
-        <Route path="/07">
-          <Exercise markdown={getMarkdownLink('07')}>
-            <Timer07 />
-          </Exercise>
-        </Route>
-        <Route path="/08">
-          <Exercise markdown={getMarkdownLink('08')}>
-            <App08 />
-          </Exercise>
-        </Route>
-        <Route path="/complete">
-          <Exercise markdown={getMarkdownLink('complete')}>
-            <AppComplete />
-          </Exercise>
-        </Route>
-        <Route path="/">
-          <Exercise markdown={getMarkdownLink('scratch')} backLink={null}>
-            <ScratchApp />
-          </Exercise>
-        </Route>
-      </Switch>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <Switch>
+          <Route path="/00">
+            <Exercise markdown={getMarkdownLink('00')}>
+              <Timer00 />
+            </Exercise>
+          </Route>
+          <Route path="/01">
+            <Exercise markdown={getMarkdownLink('01')}>
+              <Timer01 />
+            </Exercise>
+          </Route>
+          <Route path="/02">
+            <Exercise markdown={getMarkdownLink('02')}>
+              <Timer02 />
+            </Exercise>
+          </Route>
+          <Route path="/03">
+            <Exercise markdown={getMarkdownLink('03')}>
+              <Timer03 />
+            </Exercise>
+          </Route>
+          <Route path="/04">
+            <Exercise markdown={getMarkdownLink('04')}>
+              <Timer04 />
+            </Exercise>
+          </Route>
+          <Route path="/05">
+            <Exercise markdown={getMarkdownLink('05')}>
+              <Timer05 />
+            </Exercise>
+          </Route>
+          <Route path="/06">
+            <Exercise markdown={getMarkdownLink('06')}>
+              <Timer06 />
+            </Exercise>
+          </Route>
+          <Route path="/07">
+            <Exercise markdown={getMarkdownLink('07')}>
+              <Timer07 />
+            </Exercise>
+          </Route>
+          <Route path="/08">
+            <Exercise markdown={getMarkdownLink('08')}>
+              <App08 />
+            </Exercise>
+          </Route>
+          <Route path="/complete">
+            <Exercise markdown={getMarkdownLink('complete')}>
+              <AppComplete />
+            </Exercise>
+          </Route>
+          <Route exact={true} path="/">
+            <Exercise markdown={getMarkdownLink('scratch')} backLink={null}>
+              <ScratchApp />
+            </Exercise>
+          </Route>
+        </Switch>
+      </Router>
+    </QueryClientProvider>
   )
 }
 

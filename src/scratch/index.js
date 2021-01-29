@@ -6,6 +6,7 @@ const TIMEOUT = 2000
 
 const INITIAL_STATE = 'inactive'
 
+// eslint-disable-next-line no-unused-vars
 const incrementCount = assign({
   count: (context, _event) => {
     return context.count + 1
@@ -20,7 +21,7 @@ const alarmMachine = createMachine({
       on: {
         TOGGLE: {
           target: 'pending',
-          actions: incrementCount,
+          actions: 'incrementCount',
         },
       },
     },
@@ -39,7 +40,15 @@ const alarmMachine = createMachine({
 })
 
 export const ScratchApp = () => {
-  const [state, send] = useMachine(alarmMachine)
+  const [state, send] = useMachine(alarmMachine, {
+    actions: {
+      incrementCount: assign({
+        count: context => {
+          return context.count + 100
+        },
+      }),
+    },
+  })
 
   const {
     value: status,

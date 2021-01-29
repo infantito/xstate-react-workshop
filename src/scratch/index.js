@@ -12,38 +12,31 @@ const incrementCount = assign({
   },
 })
 
-const alarmMachine = createMachine(
-  {
-    initial: INITIAL_STATE,
-    context: {count: 0},
-    states: {
-      inactive: {
-        on: {
-          TOGGLE: {
-            target: 'pending',
-            actions: 'incrementCount',
-          },
-        },
-      },
-      pending: {
-        on: {
-          SUCCESS: 'active',
-          TOGGLE: 'inactive',
-        },
-      },
-      active: {
-        on: {
-          TOGGLE: 'inactive',
+const alarmMachine = createMachine({
+  initial: INITIAL_STATE,
+  context: {count: 0},
+  states: {
+    inactive: {
+      on: {
+        TOGGLE: {
+          target: 'pending',
+          actions: incrementCount,
         },
       },
     },
-  },
-  {
-    actions: {
-      incrementCount,
+    pending: {
+      on: {
+        SUCCESS: 'active',
+        TOGGLE: 'inactive',
+      },
+    },
+    active: {
+      on: {
+        TOGGLE: 'inactive',
+      },
     },
   },
-)
+})
 
 export const ScratchApp = () => {
   const [state, send] = useMachine(alarmMachine)

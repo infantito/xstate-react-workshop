@@ -1,6 +1,6 @@
-import {useMachine} from '@xstate/react'
 import * as React from 'react'
-import {createMachine} from 'xstate'
+import {createMachine, assign} from 'xstate'
+import {useMachine} from '@xstate/react'
 
 const TIMEOUT = 2000
 
@@ -8,10 +8,18 @@ const INITIAL_STATE = 'inactive'
 
 const alarmMachine = createMachine({
   initial: INITIAL_STATE,
+  context: {count: 0},
   states: {
     inactive: {
       on: {
-        TOGGLE: 'pending',
+        TOGGLE: {
+          target: 'pending',
+          actions: assign({
+            count: (context, _event) => {
+              return context.count + 1
+            },
+          }),
+        },
       },
     },
     pending: {
@@ -31,7 +39,10 @@ const alarmMachine = createMachine({
 export const ScratchApp = () => {
   const [state, send] = useMachine(alarmMachine)
 
-  const {value: status} = state
+  const {
+    value: status,
+    context: {count},
+  } = state
 
   React.useEffect(() => {
     if (status === 'pending') {
@@ -52,6 +63,7 @@ export const ScratchApp = () => {
             hour: '2-digit',
             minute: '2-digit',
           })}
+          ({count})
         </div>
         <div
           className="alarmToggle"

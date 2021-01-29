@@ -1,10 +1,12 @@
+import {useMachine} from '@xstate/react'
 import * as React from 'react'
+import {createMachine} from 'xstate'
 
 const TIMEOUT = 2000
 
 const INITIAL_STATE = 'inactive'
 
-const alarmMachine = {
+const alarmMachine = createMachine({
   initial: INITIAL_STATE,
   states: {
     inactive: {
@@ -24,25 +26,22 @@ const alarmMachine = {
       },
     },
   },
-}
-
-const alarmReducer = (state, event) => {
-  const nextState = alarmMachine.states[state].on[event.type] || state
-
-  return nextState
-}
+})
 
 export const ScratchApp = () => {
-  const [status, dispatch] = React.useReducer(alarmReducer, INITIAL_STATE)
+  const [state, send] = useMachine(alarmMachine)
+
+  const {value: status} = state
 
   React.useEffect(() => {
     if (status === 'pending') {
       const timer = setTimeout(() => {
-        dispatch({type: 'SUCCESS'})
+        send({type: 'SUCCESS'})
       }, TIMEOUT)
 
       return () => clearTimeout(timer)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status])
 
   return (
@@ -58,7 +57,7 @@ export const ScratchApp = () => {
           className="alarmToggle"
           style={{opacity: status === 'pending' ? 0.5 : 1}}
           data-active={status === 'active' || void 0}
-          onClick={() => dispatch({type: 'TOGGLE'})}
+          onClick={() => send({type: 'TOGGLE'})}
         ></div>
       </div>
     </div>

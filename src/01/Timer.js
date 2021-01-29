@@ -1,14 +1,15 @@
 import * as React from 'react'
 import {faPlay, faPause} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {useMachine} from '@xstate/react'
 
 import {ProgressCircle} from '../ProgressCircle'
-
-// import { useMachine } from '@xstate/react';
 import {timerMachine} from './timerMachine'
 
 export const Timer = () => {
-  const [state, send] = [{}, () => {}]
+  const [state, send] = useMachine(timerMachine)
+
+  const {value: status} = state
 
   const {duration, elapsed, interval} = {
     duration: 60,
@@ -19,7 +20,7 @@ export const Timer = () => {
   return (
     <div
       className="timer"
-      data-state={state.value} // Hint!
+      data-state={status}
       style={{
         // @ts-ignore
         '--duration': duration,
@@ -32,20 +33,20 @@ export const Timer = () => {
       </header>
       <ProgressCircle />
       <div className="display">
-        <div className="label">{state.value}</div>
+        <div className="label">{status}</div>
         <div
           className="elapsed"
           onClick={() => {
-            // ...
+            send({type: 'TOGGLE'})
           }}
         >
           {Math.ceil(duration - elapsed)}
         </div>
         <div className="controls">
-          {state === 'paused' && (
+          {status === 'paused' && (
             <button
               onClick={() => {
-                // ...
+                send({type: 'RESET'})
               }}
             >
               Reset
@@ -54,10 +55,10 @@ export const Timer = () => {
         </div>
       </div>
       <div className="actions">
-        {state === 'running' && (
+        {status === 'running' && (
           <button
             onClick={() => {
-              // ...
+              send({type: 'TOGGLE'})
             }}
             title="Pause timer"
           >
@@ -65,10 +66,10 @@ export const Timer = () => {
           </button>
         )}
 
-        {(state === 'paused' || state === 'idle') && (
+        {(status === 'paused' || status === 'idle') && (
           <button
             onClick={() => {
-              // ...
+              send({type: 'TOGGLE'})
             }}
             title="Start timer"
           >

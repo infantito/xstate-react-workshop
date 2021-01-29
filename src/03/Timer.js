@@ -1,5 +1,4 @@
 import * as React from 'react'
-import {useEffect} from 'react'
 import {faPlay, faPause} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
@@ -14,7 +13,14 @@ export const Timer = () => {
   const {duration, elapsed, interval} = state.context
 
   // Add a useEffect(...) here to send a TICK event on every `interval`
-  // ...
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      send('TICK')
+    }, 1000 * interval)
+
+    return () => clearInterval(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div

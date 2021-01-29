@@ -10,16 +10,15 @@ export const Timer = () => {
   const [state, send] = useMachine(timerMachine)
 
   // Use state.context instead
-  const {duration, elapsed, interval} = {
-    duration: 60,
-    elapsed: 0,
-    interval: 0.1,
-  }
+  const {
+    value: status,
+    context: {duration, elapsed, interval},
+  } = state
 
   return (
     <div
       className="timer"
-      data-state={state.value}
+      data-state={status}
       style={{
         // @ts-ignore
         '--duration': duration,
@@ -32,32 +31,28 @@ export const Timer = () => {
       </header>
       <ProgressCircle />
       <div className="display">
-        <div className="label">{state.value}</div>
+        <div className="label">{status}</div>
         <div className="elapsed" onClick={() => send({type: 'TOGGLE'})}>
           {Math.ceil(duration - elapsed)}
         </div>
         <div className="controls">
-          {state.value !== 'running' && (
+          {status !== 'running' && (
             <button onClick={() => send('RESET')}>Reset</button>
           )}
 
-          <button
-            onClick={() => {
-              // ...
-            }}
-          >
-            + 1:00
-          </button>
+          {status === 'running' && (
+            <button onClick={() => send('ADD_MINUTE')}>+ 1:00</button>
+          )}
         </div>
       </div>
       <div className="actions">
-        {state.value === 'running' && (
+        {status === 'running' && (
           <button onClick={() => send({type: 'TOGGLE'})} title="Pause timer">
             <FontAwesomeIcon icon={faPause} />
           </button>
         )}
 
-        {(state.value === 'paused' || state.value === 'idle') && (
+        {(status === 'paused' || status === 'idle') && (
           <button onClick={() => send({type: 'TOGGLE'})} title="Start timer">
             <FontAwesomeIcon icon={faPlay} />
           </button>

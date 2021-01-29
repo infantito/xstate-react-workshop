@@ -2,12 +2,19 @@ import * as React from 'react'
 import {faPlay, faPause} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useMachine} from '@xstate/react'
+import {inspect} from '@xstate/inspect'
 
 import {ProgressCircle} from '../ProgressCircle'
 import {timerMachine} from './timerMachine'
 
+inspect({
+  iframe: false,
+})
+
 export const Timer = () => {
-  const [state, send] = useMachine(timerMachine)
+  const [state, send] = useMachine(timerMachine, {
+    devTools: true,
+  })
 
   const {value: status} = state
 

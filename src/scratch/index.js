@@ -6,35 +6,44 @@ const TIMEOUT = 2000
 
 const INITIAL_STATE = 'inactive'
 
-const alarmMachine = createMachine({
-  initial: INITIAL_STATE,
-  context: {count: 0},
-  states: {
-    inactive: {
-      on: {
-        TOGGLE: {
-          target: 'pending',
-          actions: assign({
-            count: (context, _event) => {
-              return context.count + 1
-            },
-          }),
+const incrementCount = assign({
+  count: (context, _event) => {
+    return context.count + 1
+  },
+})
+
+const alarmMachine = createMachine(
+  {
+    initial: INITIAL_STATE,
+    context: {count: 0},
+    states: {
+      inactive: {
+        on: {
+          TOGGLE: {
+            target: 'pending',
+            actions: 'incrementCount',
+          },
+        },
+      },
+      pending: {
+        on: {
+          SUCCESS: 'active',
+          TOGGLE: 'inactive',
+        },
+      },
+      active: {
+        on: {
+          TOGGLE: 'inactive',
         },
       },
     },
-    pending: {
-      on: {
-        SUCCESS: 'active',
-        TOGGLE: 'inactive',
-      },
-    },
-    active: {
-      on: {
-        TOGGLE: 'inactive',
-      },
+  },
+  {
+    actions: {
+      incrementCount,
     },
   },
-})
+)
 
 export const ScratchApp = () => {
   const [state, send] = useMachine(alarmMachine)

@@ -53,8 +53,9 @@ export function ForeignClock() {
                 value: e.target.value,
               })
             }}
+            defaultValue="none"
           >
-            <option disabled selected>
+            <option disabled value="none">
               Select a timezone
             </option>
             {state.context.timezones.map(timezone => {

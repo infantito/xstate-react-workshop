@@ -13,42 +13,51 @@ const incrementCount = assign({
   },
 })
 
-const alarmMachine = createMachine({
-  initial: INITIAL_STATE,
-  context: {count: 0},
-  states: {
-    inactive: {
-      on: {
-        TOGGLE: {
-          target: 'pending',
-          actions: 'incrementCount',
+const notTooMuch = context => context.count < 5
+
+const alarmMachine = createMachine(
+  {
+    initial: INITIAL_STATE,
+    context: {count: 0},
+    states: {
+      inactive: {
+        on: {
+          TOGGLE: [
+            // if
+            {
+              target: 'pending',
+              actions: 'incrementCount',
+              cond: 'notTooMuch',
+            },
+            // else
+            {
+              target: 'rejected',
+            },
+          ],
         },
       },
-    },
-    pending: {
-      on: {
-        SUCCESS: 'active',
-        TOGGLE: 'inactive',
+      pending: {
+        on: {
+          SUCCESS: 'active',
+          TOGGLE: 'inactive',
+        },
       },
-    },
-    active: {
-      on: {
-        TOGGLE: 'inactive',
+      active: {
+        on: {
+          TOGGLE: 'inactive',
+        },
       },
+      rejected: {},
     },
   },
-})
+  {
+    actions: {incrementCount},
+    guards: {notTooMuch},
+  },
+)
 
 export const ScratchApp = () => {
-  const [state, send] = useMachine(alarmMachine, {
-    actions: {
-      incrementCount: assign({
-        count: context => {
-          return context.count + 100
-        },
-      }),
-    },
-  })
+  const [state, send] = useMachine(alarmMachine)
 
   const {
     value: status,
@@ -74,7 +83,7 @@ export const ScratchApp = () => {
             hour: '2-digit',
             minute: '2-digit',
           })}
-          ({count})
+          ({count}) ({state.toStrings().join(' ')})
         </div>
         <div
           className="alarmToggle"

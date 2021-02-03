@@ -15,6 +15,25 @@ const incrementCount = assign({
 
 const notTooMuch = context => context.count < 5
 
+const greetMachine = createMachine({
+  initial: 'unknown',
+  states: {
+    unknown: {
+      always: [
+        {
+          cond: () => new Date().getHours() < 12,
+          target: 'morning',
+        },
+        {
+          target: 'day',
+        },
+      ],
+    },
+    morning: {},
+    day: {},
+  },
+})
+
 const alarmMachine = createMachine(
   {
     initial: INITIAL_STATE,
@@ -57,6 +76,8 @@ const alarmMachine = createMachine(
 )
 
 export const ScratchApp = () => {
+  const [greetState] = useMachine(greetMachine)
+
   const [state, send] = useMachine(alarmMachine)
 
   const {
@@ -77,6 +98,7 @@ export const ScratchApp = () => {
 
   return (
     <div className="scratch">
+      <h2>Good {greetState.value}</h2>
       <div className="alarm">
         <div className="alarmTime">
           {new Date().toLocaleTimeString('en-US', {

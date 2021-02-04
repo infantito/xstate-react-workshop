@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {createMachine, assign} from 'xstate'
+import {createMachine, assign, send} from 'xstate'
 import {useMachine} from '@xstate/react'
 
 const TIMEOUT = 2000
@@ -34,6 +34,14 @@ const greetMachine = createMachine({
   },
 })
 
+const saveAlarm = async () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(100)
+    }, 2000)
+  })
+}
+
 const alarmMachine = createMachine(
   {
     initial: INITIAL_STATE,
@@ -56,9 +64,29 @@ const alarmMachine = createMachine(
         },
       },
       pending: {
+        invoke: {
+          id: 'timeout',
+          src: (ctx, event) => (sendBack, receive) => {
+            receive(console.log)
+
+            const timeout = setTimeout(() => {
+              sendBack({
+                type: 'SUCCESS',
+              })
+            }, TIMEOUT)
+
+            return () => {
+              console.log('cleaning up!')
+              clearTimeout(timeout)
+            }
+          },
+          onError: {target: 'rejected'},
+        },
         on: {
           SUCCESS: 'active',
-          TOGGLE: 'inactive',
+          TOGGLE: {
+            target: 'inactive',
+          },
         },
       },
       active: {
@@ -84,17 +112,6 @@ export const ScratchApp = () => {
     value: status,
     context: {count},
   } = state
-
-  React.useEffect(() => {
-    if (status === 'pending') {
-      const timer = setTimeout(() => {
-        send({type: 'SUCCESS'})
-      }, TIMEOUT)
-
-      return () => clearTimeout(timer)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status])
 
   return (
     <div className="scratch">
